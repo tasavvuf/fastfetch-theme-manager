@@ -111,14 +111,6 @@ ftm list --origin user
 
 This project includes **6 original ASCII art themes**. Browse interactively with `ftm pick` or apply directly:
 
-| Theme | Art Subject | Color | Width |
-|-------|-------------|-------|-------|
-| `ascii-art` | Detailed shading portrait | white | 68 cols |
-| `ascii-art-1` | Winged beast | cyan | 68 cols |
-| `ascii-art-2` | Serpent/dragon body | green | 65 cols |
-| `ascii-art-3` | Dragon face | red | 100 cols |
-| `ascii-art-4` | Dragon face | magenta | 100 cols |
-| `ascii-art-5` | Portrait profile | yellow | 44 cols |
 
 ---
 
