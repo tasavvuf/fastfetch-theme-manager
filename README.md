@@ -1,200 +1,196 @@
 <div align="center">
 
-# 🌈 Fastfetch Theme Manager
+# Fastfetch Theme Manager
 
 ### *Professional CLI Theme Management for Fastfetch*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
-[![Python 3.6+](https://img.shields.io/badge/python-3.6+-brightgreen.svg)](https://www.python.org/downloads/)
-[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS-lightgrey)](https://github.com/itz-dev-tasavvuf/fastfetch-theme-manager)
-[![AUR version](https://img.shields.io/aur/version/fastfetch-theme-manager?logo=arch-linux)](https://aur.archlinux.org/packages/fastfetch-theme-manager)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-brightgreen.svg)](https://www.python.org/downloads/)
+[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20BSD-lightgrey)](https://github.com/tasavvuf/fastfetch-theme-manager)
+[![Fastfetch](https://img.shields.io/badge/fastfetch-2.50+-blue)](https://github.com/fastfetch-cli/fastfetch)
+[![Themes](https://img.shields.io/badge/themes-6%20original-8A2BE2)](https://github.com/tasavvuf/fastfetch-theme-manager/tree/main/themes)
 
-**Created by** [Tasavvuf Gori](https://github.com/itz-dev-tasavvuf) *(itz-dev-tasavvuf)*
+**Created by [Tasavvuf Gori](https://github.com/tasavvuf)**
 
 ---
 
-A professional, **zero-dependency** CLI tool to build, manage, and preview Fastfetch themes with an interactive wizard, crash protection, and smart distro detection.
+A professional, **zero-dependency** CLI tool to build, manage, and preview Fastfetch themes with version-aware module detection, crash protection, and universal distro support. Comes with **6 original ASCII art themes** ready to use.
 
-[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Contributing](CONTRIBUTING.md) • [License](#-license)
+[Features](#-features) [Installation](#-installation) [Usage](#-usage) [Theme Collection](#-theme-collection) [Contributing](CONTRIBUTING.md) [License](#-license)
 
 </div>
 
 ---
 
-## 🚀 Features
+## Features
 
-<table>
-<tr>
-<td width="50%">
-
-### ✨ Interactive Theme Builder
-Create custom themes step-by-step with a visual wizard. Choose logos, borders, and colors without writing any code.
-
-### 🛡️ Smart Safety System
-Automatic config backups before changes. Auto-reverts if a theme crashes Fastfetch.
-
-### ⚡ Zero Dependencies
-Pure Python 3 using only the standard library. No `pip install` required.
-
-</td>
-<td width="50%">
-
-### 📂 Universal Presets
-Intelligently detects system presets, official examples, and user themes across all major distributions.
-
-### 🔍 TUI Picker
-Fuzzy-find themes with live previews using `fzf` integration.
-
-### 📦 One-Line Installer
-Auto-detects package managers (apt, pacman, dnf, apk, brew) and suggests missing dependencies.
-
-</td>
-</tr>
-</table>
+- **6 Original ASCII Art Themes** — Hand-crafted ASCII art portraits and creatures
+- **Interactive Theme Builder** — Create themes step-by-step with version-gated sub-options
+- **70+ Supported Modules** — Auto-filtered to your fastfetch version
+- **Universal Distro Support** — Detects 50+ package managers across all Linux distros, macOS, and BSDs
+- **Version Compatibility Layer** — Automatically adapts to fastfetch 2.50 through 2.65+
+- **Dynamic FZF Preview** — Live preview shows exactly your theme's module layout
+- **Smart Safety System** — Automatic backups before changes, auto-revert on failure
+- **Original Art Collection** — Dragons, beasts, and portraits as terminal logos
+- **Zero Dependencies** — Pure Python 3 standard library
 
 ---
 
-## 📸 Demo
+## Installation
 
-### 🛠️ Interactive Theme Builder
-```bash
-./ftm.py build
-```
-*Build themes through an intuitive wizard interface*
-<img width="1915" height="791" alt="Screenshot From 2025-12-07 16-32-35" src="https://github.com/user-attachments/assets/998c59ca-d271-48bc-a46f-5d7db3105052" />
-<img width="1915" height="832" alt="Screenshot From 2025-12-07 16-33-02" src="https://github.com/user-attachments/assets/0fff8ca6-8392-495e-b872-49930f0e671a" />
-<img width="1915" height="557" alt="Screenshot From 2025-12-07 16-33-17" src="https://github.com/user-attachments/assets/5ac35dfc-969a-4fff-b834-0821a08b401d" />
-
-
-
-
-### 🎯 FZF Picker
-```bash
-./ftm.py pick
-```
-*Live preview and selection with arrow key navigation*
-<img width="1920" height="1080" alt="Screenshot From 2025-12-07 16-33-49" src="https://github.com/user-attachments/assets/8bd204bb-92c0-48a2-b379-5705473f5cb7" />
-
-
-### 📂 Theme List
-```bash
-./ftm.py list
-```
-*Smart detection of system and user themes*
-
-
----
-
-## 💾 Installation
-
-### Option 1: One-Line Install *(Recommended)*
-
-This script automatically detects your shell, installs FTM, and checks for dependencies:
+### Option 1: One-Line Install
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/itz-dev-tasavvuf/fastfetch-theme-manager/main/install.sh)
+bash <(curl -fsSL https://raw.githubusercontent.com/tasavvuf/fastfetch-theme-manager/main/install.sh)
 ```
 
-### Option 2: Manual Install
+### Option 2: pip Install
 
 ```bash
-# Clone the repository
-git clone https://github.com/itz-dev-tasavvuf/fastfetch-theme-manager.git
+pip3 install --user git+https://github.com/tasavvuf/fastfetch-theme-manager.git
+```
+
+### Option 3: Manual
+
+```bash
+git clone https://github.com/tasavvuf/fastfetch-theme-manager.git
 cd fastfetch-theme-manager
-
-# Run the installer
 chmod +x install.sh
 ./install.sh
 ```
 
-> **Note:** Ensure `~/.local/bin` is in your `$PATH`
+---
+
+## Usage
+
+```
+ftm info        Show system info and fastfetch version
+ftm check       Check dependencies and system state
+ftm list        List all available themes
+ftm search      Find themes by name
+ftm describe    Show theme details and module list
+ftm preview     Preview a theme without applying
+ftm pick        Interactive fzf theme picker
+ftm set NAME    Apply a specific theme
+ftm build       Create a new theme interactively
+ftm edit NAME   Modify an existing theme
+ftm export      Export a theme to a file
+ftm import      Import a theme from a file
+ftm backup      Create a configuration backup
+ftm restore     Restore from a backup
+ftm reset       Reset to default configuration
+ftm pull        Download community themes from GitHub
+ftm modules     List modules compatible with your fastfetch version
+```
+
+### Quick Examples
+
+```bash
+# Browse and pick a theme interactively
+ftm pick
+
+# Apply a theme
+ftm set ascii-art-5
+
+# Preview without applying
+ftm preview ascii-art
+
+# Import a theme file
+ftm import --apply themes/ascii-art.jsonc
+
+# Export your current config as a theme
+ftm export my-custom-theme
+
+# List all themes from a specific source
+ftm list --origin user
+```
 
 ---
 
-## 📖 Usage
-Pure Python 3 using only the standard library. No pip install required.
-### 1️⃣ Build a New Theme
+## Theme Collection
 
-Create a theme from scratch using the interactive wizard:
+This project includes **6 original ASCII art themes**. Browse interactively with `ftm pick` or apply directly:
 
-```bash
-./ftm.py build
+| Theme | Art Subject | Color | Width |
+|-------|-------------|-------|-------|
+| `ascii-art` | Detailed shading portrait | white | 68 cols |
+| `ascii-art-1` | Winged beast | cyan | 68 cols |
+| `ascii-art-2` | Serpent/dragon body | green | 65 cols |
+| `ascii-art-3` | Dragon face | red | 100 cols |
+| `ascii-art-4` | Dragon face | magenta | 100 cols |
+| `ascii-art-5` | Portrait profile | yellow | 44 cols |
+
+---
+
+## Building with Sub-Options
+
+When you build a theme with `ftm build`, the builder detects your fastfetch version and only shows compatible modules and sub-options:
+
 ```
+? Configure Memory module:
+  Exclude ZFS ARC from used memory? [Y/n]: y     (v2.65.2+)
 
-### 2️⃣ Pick a Theme Visually
-
-Browse and preview themes instantly with arrow keys:
-
-```bash
-./ftm.py pick
-```
-
-### 3️⃣ Manage Themes
-
-```bash
-# List all detected themes
-./ftm.py list
-
-# Set a specific theme (by name or path)
-./ftm.py set neofetch
-./ftm.py set my-custom-theme
-
-# Reset to default configuration
-./ftm.py reset
-```
-
-### 4️⃣ Download Community Packs
-
-Pull curated themes directly from GitHub (no git/pip needed):
-
-```bash
-ftm pull
+? Configure GPU module:
+  Enable driver-specific detection? [y/N]: y      (v2.65.0+)
+  Show PCIe link speed? [Y/n]: n                  (v2.65.0+)
 ```
 
 ---
 
-## 🔧 Requirements
+## Supported Platforms
+
+| Operating System | Support | Package Managers |
+|----------------|---------|-----------------|
+| Arch Linux | Full | pacman, yay, paru, pacstall |
+| Debian/Ubuntu | Full | apt, snap, linglong |
+| Fedora/RHEL | Full | dnf, yum, rpm-ostree |
+| openSUSE | Full | zypper |
+| Gentoo/Funtoo | Full | emerge, eix |
+| NixOS | Full | nix-env, nixos-rebuild |
+| Guix System | Full | guix |
+| Alpine Linux | Full | apk |
+| Void Linux | Full | xbps-install |
+| Solus | Full | eopkg |
+| Clear Linux | Full | swupd |
+| FreeBSD | Full | pkg, pkgtool |
+| macOS | Full | brew, macports |
+| NetBSD/OpenBSD | Full | pkgsrc, pkg_add |
+| Haiku | Full | hpkg |
+| And more... | Full | cargo, pip3, flatpak, snap, AppImage |
+
+---
+
+## Fastfetch Version Compatibility
+
+| Feature | Minimum Version |
+|---------|----------------|
+| ZFS ARC memory exclusion | 2.65.2 |
+| GPU PCIe link speed | 2.65.0 |
+| CPU code name / technology | 2.65.0 |
+| Display serial number, HDR | 2.65.0 |
+| Codec module | 2.64.0 |
+| Media playback progress | 2.63.0 |
+| PhysicalDisk hide options | 2.62.0 |
+| Keyboard module | 2.61.0 |
+| Editor module, {cwd} | 2.60.0 |
+| Wallpaper module | 2.57.0 |
+| Dynamic interval | 2.55.0 |
+| JSON5 config, march | 2.51.0 |
+| All other modules | 2.50.0 |
+
+---
+
+## Requirements
 
 | Requirement | Status | Notes |
 |------------|--------|-------|
-| **Python 3.6+** | ✅ Required | Pre-installed on most Linux systems |
-| **Fastfetch** | ✅ Required | The core program being themed |
-| **fzf** | ⭐ Optional | Highly recommended for `ftm pick` |
-
-> The installer automatically detects missing tools and suggests the correct installation command for your OS (Pacman, Apt, Dnf, Brew, etc.)
+| Python 3.8+ | Required | Pre-installed on most systems |
+| Fastfetch | Required | Tested with 2.50 through 2.65+ |
+| fzf | Optional | Recommended for `ftm pick` |
 
 ---
 
-## 🌐 Supported Platforms
-
-<div align="center">
-
-| **Operating System** | **Support Status** |
-|---------------------|-------------------|
-| 🐧 Arch Linux | ✅ Full Support |
-| 🐧 Debian/Ubuntu | ✅ Full Support |
-| 🐧 Fedora/RHEL | ✅ Full Support |
-| 🐧 Alpine Linux | ✅ Full Support |
-| 🐧 Void Linux | ✅ Full Support |
-| 🍎 macOS | ✅ Full Support |
-
-</div>
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Whether you're reporting bugs, suggesting features, or submitting code, please check out our [Contributing Guidelines](CONTRIBUTING.md).
-
-**Quick Links:**
-- 🐛 [Report a Bug](https://github.com/itz-dev-tasavvuf/fastfetch-theme-manager/issues)
-- 💡 [Request a Feature](https://github.com/itz-dev-tasavvuf/fastfetch-theme-manager/issues)
-- 🎨 [Submit a Theme](CONTRIBUTING.md#3-submitting-themes)
-- 💻 [Code Contribution Guide](CONTRIBUTING.md#4-code-contributions)
-
----
-
-## 📜 License
+## License
 
 This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for full details.
 
@@ -204,8 +200,8 @@ This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for f
 
 ### ⭐ If you find FTM useful, consider giving it a star!
 
-**Made with ❤️ by [Tasavvuf Gori](https://github.com/itz-dev-tasavvuf)**
+**Made with ❤️ by [Tasavvuf Gori](https://github.com/tasavvuf)**
 
-[Report Issue](https://github.com/itz-dev-tasavvuf/fastfetch-theme-manager/issues) • [Request Feature](https://github.com/itz-dev-tasavvuf/fastfetch-theme-manager/issues) • [View Discussions](https://github.com/itz-dev-tasavvuf/fastfetch-theme-manager/discussions)
+[Report Issue](https://github.com/tasavvuf/fastfetch-theme-manager/issues) • [Request Feature](https://github.com/tasavvuf/fastfetch-theme-manager/issues) • [View Discussions](https://github.com/tasavvuf/fastfetch-theme-manager/discussions)
 
 </div>

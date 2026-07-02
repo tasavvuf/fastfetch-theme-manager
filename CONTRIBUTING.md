@@ -1,283 +1,202 @@
-<div align="center">
+# Contributing to Fastfetch Theme Manager
 
-# 🤝 Contributing to Fastfetch Theme Manager
+Thanks for considering contributing to FTM!
 
-### *Help Make FTM Even Better!*
-
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
-[![Contributors](https://img.shields.io/github/contributors/itz-dev-tasavvuf/fastfetch-theme-manager)](https://github.com/itz-dev-tasavvuf/fastfetch-theme-manager/graphs/contributors)
-
-First off, **thank you** for considering contributing to FTM! It's people like you that make open source tools great. 🎉
-
-[Report Bugs](#1-reporting-bugs-) • [Suggest Features](#2-suggesting-enhancements-) • [Submit Themes](#3-submitting-themes-) • [Code Guidelines](#4-code-contributions-)
-
-</div>
+[Report Bugs](#reporting-bugs) • [Suggest Features](#suggesting-enhancements) • [Submit Themes](#submitting-themes) • [Code Guidelines](#code-contributions)
 
 ---
 
-## 🛠️ How Can I Contribute?
-
-### 1. Reporting Bugs 🐛
-
-Found a bug? Help us squash it!
+## Reporting Bugs
 
 **Before Submitting:**
-- 🔍 Search [existing issues](https://github.com/itz-dev-tasavvuf/fastfetch-theme-manager/issues) to avoid duplicates
-- ✅ Verify you're using the latest version of FTM
+- Search existing issues to avoid duplicates
+- Verify you're using the latest version (`python3 ftm.py --version`)
 
-**What to Include:**
-```markdown
-**Environment:**
-- OS/Distro: (e.g., Arch Linux, Ubuntu 22.04, macOS 14)
-- Python Version: (run `python3 --version`)
-- Fastfetch Version: (run `fastfetch --version`)
-
-**Issue Description:**
-(Clear description of what went wrong)
-
-**Steps to Reproduce:**
-1. Run `ftm <command>`
-2. Expected behavior vs. actual behavior
-
-**Error Output:**
-```
-(Paste any error messages or logs)
-```
-```
-
-[**Create Bug Report →**](https://github.com/itz-dev-tasavvuf/fastfetch-theme-manager/issues/new)
+**Include:**
+- OS/Distro and version
+- Python version (`python3 --version`)
+- Fastfetch version (`fastfetch --version`)
+- Steps to reproduce and expected vs actual behavior
+- Full error output
 
 ---
 
-### 2. Suggesting Enhancements 💡
+## Suggesting Enhancements
 
-Have an idea to make FTM better?
-
-**Guidelines:**
-- 🎯 Be specific about the feature and its use case
-- 🧐 Explain *why* this would be valuable to users
-- 📸 Include mockups or examples if applicable
-
-**Template:**
-```markdown
-**Feature Name:** (e.g., Theme Export/Import)
-
-**Problem it Solves:**
-(What pain point does this address?)
-
-**Proposed Solution:**
-(How should this work?)
-
-**Alternatives Considered:**
-(Any other approaches?)
-```
-
-[**Suggest Feature →**](https://github.com/itz-dev-tasavvuf/fastfetch-theme-manager/issues/new?labels=enhancement)
+Be specific about the feature, its use case, and why it's valuable. Include mockups if applicable.
 
 ---
 
-### 3. Submitting Themes 🎨
+## Submitting Themes
 
-We love seeing creative configurations!
+### Structure
 
-#### **Theme Checklist:**
+Place your ASCII art file in `themes/images/` and create a matching `.jsonc` theme file in `themes/`:
 
-- [ ] Theme is saved as a `.jsonc` file
-- [ ] Tested with the latest Fastfetch version
-- [ ] No absolute paths (e.g., `/home/yourname/Pictures/logo.png`)
-- [ ] Uses relative paths or standard system icons
-- [ ] Includes a brief description/comment at the top
-
-#### **How to Submit:**
-
-**Option A: Pull Request**
-```bash
-# Fork the repo, then:
-git clone https://github.com/YOUR_USERNAME/fastfetch-theme-manager.git
-cd fastfetch-theme-manager
-
-# Add your theme
-mkdir -p themes/
-cp your-theme.jsonc themes/
-
-# Create PR
-git checkout -b theme/your-theme-name
-git add themes/your-theme.jsonc
-git commit -m "feat: Add your-theme-name theme"
-git push origin theme/your-theme-name
+```
+themes/
+  your-theme.jsonc
+  images/
+    your-art.txt
 ```
 
-**Option B: Share in Discussions**
+### Theme File Template
 
-Post in [GitHub Discussions](https://github.com/itz-dev-tasavvuf/fastfetch-theme-manager/discussions) if you prefer a simpler approach.
+```jsonc
+{
+  "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "type": "file-raw",
+    "source": "/absolute/path/to/your-art.txt"
+  },
+  "display": {
+    "separator": " : ",
+    "color": "white"
+  },
+  "modules": [
+    "title", "separator", "os", "host", "kernel", "uptime",
+    "packages", "shell", "de", "terminal",
+    "cpu", "gpu", "memory",
+    "break", "colors"
+  ]
+}
+```
+
+### Requirements
+
+- Theme is a `.jsonc` file in `themes/`
+- ASCII art is a `.txt` file in `themes/images/`
+- Use `"type": "file-raw"` to display raw text (not processed)
+- Use absolute paths in `source` if your filename has spaces
+- Tested with `fastfetch --config themes/your-theme.jsonc`
 
 ---
 
-### 4. Code Contributions 💻
+## Code Contributions
 
-Want to improve the core tool? Awesome! Let's keep FTM lightweight and robust.
+### Architecture Overview (v3.0+)
 
-## ⚠️ The Golden Rule: **Zero Dependencies**
+FTM v3 is structured as a Python package under `src/ftm/`:
 
-FTM runs on **any** Linux system with Python 3 installed.
-
-<div align="center">
-
-### ❌ DO NOT USE
-```python
-import requests  # NO
-import rich      # NO
-import click     # NO
+```
+src/ftm/
+  __init__.py       # Package metadata, version
+  __main__.py       # python3 -m ftm entry point
+  cli.py            # CLI parser, command dispatch, help system
+  config.py         # Paths, directory management
+  style.py          # ANSI styling
+  utils.py          # JSONC I/O, subprocess helpers
+  fastfetch_version.py  # Version detection + compat database
+  moduledb.py       # 70-module registry with version gating
+  detection.py      # OS/distro/50+ package manager detection
+  themes.py         # Theme discovery, listing, resolution
+  manager.py        # Apply/backup/restore/reset
+  builder.py        # Interactive theme builder wizard
+  picker.py         # fzf TUI picker
 ```
 
-### ✅ USE INSTEAD
-```python
-import urllib.request  # YES
-import subprocess      # YES
-import json            # YES
+### The Golden Rule: Zero Dependencies
+
+FTM uses only Python standard library. No `pip install` required.
+
+```
+# DO NOT use:
+import requests      # NO
+import rich          # NO
+import click         # NO
+import pyyaml        # NO
+
+# USE instead:
+import urllib.request   # YES
+import subprocess       # YES
+import json             # YES
+import shutil           # YES
 ```
 
-</div>
+### Coding Standards
 
-> **Why?** To avoid forcing users to run `pip install`, ensuring FTM works out-of-the-box everywhere.
+1. **Type hints** for all function signatures
+2. **No bare excepts** — always specify exception types
+3. **f-strings** over `%` or `.format()` for string formatting
+4. **Pathlib** over `os.path` for path operations
+5. **No hardcoded paths** — use `shutil.which()`, config constants
+6. **Error messages** use `Style` class, not raw `print()`
 
----
+### Adding a New Module
 
-## 📋 Coding Standards
+1. Add the module definition to `moduledb.py` `MODULE_REGISTRY` list
+2. Add a `ModuleDef` with key, label, category, `since` version, and any sub-options
+3. Add the fastfetch version feature flag in `fastfetch_version.py` if the module requires a specific version
 
-### **1. Type Hinting**
-Use Python type hints for clarity:
+### Adding a New Package Manager
 
-```python
-from typing import List, Optional
+1. Add the binary name to `detection.py` `detect_package_managers()` checks list
+2. Add the install command to `detection.py` `suggest_install()` dict
+3. Add to `install.sh` package manager detection chain
 
-def get_themes(directory: str) -> List[str]:
-    """Returns list of theme files in directory."""
-    pass
+### Adding a New Command
 
-def find_config(name: Optional[str] = None) -> Optional[str]:
-    """Finds config by name, returns path or None."""
-    pass
-```
+1. Add the subparser in `cli.py` `main()` function
+2. Add the handler function (e.g., `cmd_mycommand`)
+3. Add to the `dispatch` dictionary
+4. Add docs entry in `cmd_help()` docs dict
 
-### **2. Error Handling**
-Never let the program crash with a raw traceback:
+### Version Database
 
-```python
-# ❌ BAD
-file_content = open('/some/path').read()
+When new fastfetch versions add features:
+1. Add a new feature key to `fastfetch_version.py` `_build_table()`
+2. Add the `FastfetchVersion` target
+3. Reference the feature in `moduledb.py` via `since=FastfetchVersion(x,y,z)` or in sub-options
 
-# ✅ GOOD
-try:
-    with open('/some/path', 'r') as f:
-        file_content = f.read()
-except FileNotFoundError:
-    print(f"{Style.ERROR}File not found: /some/path")
-    return None
-except Exception as e:
-    print(f"{Style.ERROR}Unexpected error: {e}")
-    return None
-```
+### Testing
 
-### **3. Cross-Platform Compatibility**
-Avoid hardcoded paths:
-
-```python
-# ❌ BAD
-fastfetch_path = "/usr/bin/fastfetch"
-
-# ✅ GOOD
-import shutil
-fastfetch_path = shutil.which("fastfetch")
-if not fastfetch_path:
-    print(f"{Style.ERROR}Fastfetch not found in PATH")
-```
-
----
-
-## 🚀 Development Workflow
-
-### **Step 1: Fork & Clone**
 ```bash
-# Fork on GitHub, then:
-git clone https://github.com/YOUR_USERNAME/fastfetch-theme-manager.git
-cd fastfetch-theme-manager
+# Run all tests
+python3 -m pytest tests/
+
+# Manual integration tests
+python3 -m ftm check
+python3 -m ftm list
+python3 -m ftm info
 ```
 
-### **Step 2: Create a Branch**
+### Development Workflow
+
 ```bash
-git checkout -b feature/amazing-new-feature
-```
-
-### **Step 3: Make Changes**
-Edit `ftm.py` or other files as needed.
-
-### **Step 4: Test Your Changes**
-```bash
-# Run basic commands
-./ftm.py list
-./ftm.py build
-./ftm.py reset
-
-# Verify error handling
-./ftm.py set nonexistent-theme  # Should fail gracefully
-```
-
-### **Step 5: Commit & Push**
-```bash
-# Use clear, descriptive messages
+git checkout -b feature/your-feature
+# Make changes
+python3 -m pytest tests/   # Run unit tests
+python3 -m ftm check       # Run integration
 git add .
-git commit -m "feat: Add support for NixOS package manager"
-git push origin feature/amazing-new-feature
+git commit -m "feat: Your feature description"
+git push origin feature/your-feature
 ```
 
-### **Step 6: Open a Pull Request**
-Go to your fork on GitHub and click **"New Pull Request"**
-
----
-
-## 🧪 Testing Checklist
-
-Before submitting a PR, verify:
-
-- [ ] `ftm.py` runs without installing any pip packages
-- [ ] `install.sh` script still works correctly
-- [ ] All potential errors are handled gracefully
-- [ ] Code follows the standards above
-- [ ] No hardcoded paths or dependencies
-- [ ] Tested on at least one Linux distribution
-
----
-
-## 🎯 Commit Message Guidelines
-
-Follow these conventions for clarity:
+### Commit Message Guidelines
 
 | Prefix | Usage |
 |--------|-------|
-| `feat:` | New feature (e.g., `feat: Add fzf picker integration`) |
-| `fix:` | Bug fix (e.g., `fix: Resolve crash on missing config`) |
-| `docs:` | Documentation only (e.g., `docs: Update README examples`) |
-| `style:` | Code formatting (e.g., `style: Apply PEP 8 formatting`) |
-| `refactor:` | Code restructuring (e.g., `refactor: Simplify theme detection`) |
-| `test:` | Adding tests (e.g., `test: Add unit tests for parser`) |
+| `feat:` | New feature |
+| `fix:` | Bug fix |
+| `docs:` | Documentation |
+| `refactor:` | Code restructuring |
+| `test:` | Adding tests |
+| `compat:` | Version compatibility updates |
+
+### Pull Request Checklist
+
+- [ ] No pip packages required
+- [ ] All tests pass
+- [ ] Errors handled gracefully (no raw tracebacks)
+- [ ] Code uses type hints
+- [ ] Tested with `python3 src/ftm/__main__.py check`
+- [ ] If adding module support, updated `moduledb.py`
+- [ ] If adding distro support, updated `detection.py` and `install.sh`
 
 ---
 
-## 💬 Questions?
+## Questions?
 
-- 💡 Not sure where to start? Check [existing issues](https://github.com/itz-dev-tasavvuf/fastfetch-theme-manager/issues) labeled `good first issue`
-- 🗨️ Have questions? Ask in [Discussions](https://github.com/itz-dev-tasavvuf/fastfetch-theme-manager/discussions)
-- 📧 Need help? Open an issue with the `question` label
-
----
-
-<div align="center">
-
-### 🌟 Thank You for Making FTM Better!
-
-**Every contribution, no matter how small, makes a difference.**
-
-[View Contributors](https://github.com/itz-dev-tasavvuf/fastfetch-theme-manager/graphs/contributors) • [Code of Conduct](CODE_OF_CONDUCT.md)
-
-</div>
+- Check existing issues labeled `good first issue`
+- Ask in Discussions
+- Open an issue with the `question` label
